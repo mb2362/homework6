@@ -1,15 +1,33 @@
+import logging
 from decimal import Decimal
-# Define the functions with type hints
+
+# Configure logger
+logger = logging.getLogger(__name__)
+
+# Define the functions with type hints and logging
+
 def add(a: Decimal, b: Decimal) -> Decimal:
-    return a + b
+    result = a + b
+    logger.info(f"Performed addition: {a} + {b} = {result}")
+    return result
 
 def subtract(a: Decimal, b: Decimal) -> Decimal:
-    return a - b
+    result = a - b
+    logger.info(f"Performed subtraction: {a} - {b} = {result}")
+    return result
 
 def multiply(a: Decimal, b: Decimal) -> Decimal:
-    return a * b
+    result = a * b
+    logger.info(f"Performed multiplication: {a} * {b} = {result}")
+    return result
 
 def divide(a: Decimal, b: Decimal) -> Decimal:
-    if b == 0:
-        raise ValueError("Cannot divide by zero")
-    return a / b
+    try:
+        if b == 0:
+            raise ValueError("Cannot divide by zero")
+        result = a / b
+        logger.info(f"Performed division: {a} / {b} = {result}")
+        return result
+    except ValueError as e:
+        logger.error(f"Error in division: {e} - operands were {a} and {b}")
+        raise  # Re-raise the exception after logging

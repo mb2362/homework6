@@ -11,12 +11,16 @@
     The __repr__ method provides a developer-friendly string representation 
     of the object, useful for debugging and logging.
 '''
+import logging
 # Import the Decimal class for precise decimal arithmetic
 from decimal import Decimal
 # Import Callable from typing to specify the operation as a callable type hint
 from typing import Callable
 # Import arithmetic operations from a module named calculator.operations
 from calculator.operations import add, subtract, multiply, divide
+
+# Configure logger
+logger = logging.getLogger(__name__)
 
 # Definition of the Calculation class with type annotations for improved readability and safety
 class Calculation:
@@ -29,19 +33,23 @@ class Calculation:
         # Store the operation as a callable that takes two Decimals and returns a Decimal
         # This allows for flexible assignment of any function that matches this signature (like add, subtract, etc.)
         self.operation = operation
+        logger.info(f"Created Calculation object: {self.__repr__()}")
     
     # Static method to create a new instance of Calculation
     # This method provides an alternative constructor that can be used without instantiating the class directly
     @staticmethod    
     def create(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]):
         # Return a new Calculation object initialized with the provided arguments
+        logger.info(f"Creating Calculation with operands: {a}, {b} and operation: {operation.__name__}")
         return Calculation(a, b, operation)
 
     # Method to perform the calculation stored in this object
     def perform(self) -> Decimal:
         """Perform the stored calculation and return the result."""
-        # The operation (e.g., add, subtract) is called with the operands (a and b) and the result is returned
-        return self.operation(self.a, self.b)
+        logger.info(f"Performing operation: {self.operation.__name__} on {self.a} and {self.b}")
+        result = self.operation(self.a, self.b)
+        logger.info(f"Result of {self.operation.__name__}: {result}")
+        return result
 
     # Special method to provide a string representation of the Calculation instance
     def __repr__(self):

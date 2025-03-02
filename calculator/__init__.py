@@ -7,23 +7,30 @@ This code demonstrates effective use of object-oriented and functional programmi
 '''
 
 # Import necessary modules and classes
+import logging
 from calculator.calculations import Calculations  # Manages history of calculations
 from calculator.operations import add, subtract, multiply, divide  # Arithmetic operations
 from calculator.calculation import Calculation  # Represents a single calculation
 from decimal import Decimal  # For high-precision arithmetic
 from typing import Callable  # For type hinting callable objects
 
+# Configure logger
+logger = logging.getLogger(__name__)
+
 # Definition of the Calculator class
 class Calculator:
     @staticmethod
     def _perform_operation(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]) -> Decimal:
         """Create and perform a calculation, then return the result."""
+        logger.info(f"Performing operation: {operation.__name__} with {a} and {b}")
         # Create a Calculation object using the static create method, passing in operands and the operation
         calculation = Calculation.create(a, b, operation)
         # Add the calculation to the history managed by the Calculations class
         Calculations.add_calculation(calculation)
         # Perform the calculation and return the result
-        return calculation.perform()
+        result = calculation.perform()
+        logger.info(f"Result: {result}")
+        return result
 
     @staticmethod
     def add(a: Decimal, b: Decimal) -> Decimal:
