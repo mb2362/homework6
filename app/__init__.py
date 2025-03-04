@@ -2,6 +2,7 @@
 import logging
 import logging.config
 import os
+from dotenv import load_dotenv
 from app.plugins.plugins_manager import load_plugins
 
 # Define log directory and config path
@@ -25,8 +26,19 @@ logger.info("Logging is successfully set up.")
 
 class App:
     def __init__(self):
+        load_dotenv()
+        self.settings = self.load_environment_variables()
+        self.settings.setdefault('ENVIRONMENT', 'PRODUCTION')
         logger.info("Initializing application and loading plugins.")
         self.command_handler = load_plugins()  # Load plugins dynamically
+
+    def load_environment_variables(self):
+        settings = {key: value for key, value in os.environ.items()}
+        logging.info("Environment variables loaded.")
+        return settings
+
+    def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
+        return self.settings.get(env_var, None)
 
     def start(self):
         """Runs the command loop to process user input."""
