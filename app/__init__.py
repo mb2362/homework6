@@ -33,12 +33,31 @@ class App:
         self.command_handler = load_plugins()  # Load plugins dynamically
 
     def load_environment_variables(self):
-        settings = {key: value for key, value in os.environ.items()}
-        logging.info("Environment variables loaded.")
-        return settings
+        """
+        Loads all environment variables into a dictionary.
+        Iterates through os.environ.items() and stores each key-value pair in the 'settings' dictionary.
+        Logs a message indicating that the environment variables have been loaded.
+        
+        Returns:
+            dict: A dictionary containing all environment variables.
+        """
+        settings = {key: value for key, value in os.environ.items()}  # Create a dictionary with environment variables
+        logging.info("Environment variables loaded.")  # Log the loading process
+        return settings  # Return the dictionary with environment variables
 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
-        return self.settings.get(env_var, None)
+        """
+        Retrieves the value of a specific environment variable.
+        If the variable is not found, it returns None.
+
+        Args:
+            env_var (str): The name of the environment variable to retrieve. Defaults to 'ENVIRONMENT'.
+            
+        Returns:
+            str or None: The value of the environment variable or None if not found.
+        """
+        return self.settings.get(env_var, None)  # Return the value of the requested environment variable or None
+
 
     def start(self):
         """Runs the command loop to process user input."""

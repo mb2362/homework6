@@ -3,7 +3,7 @@ import pytest  # pylint: disable=unused-import
 from app import App
 
 def test_app_get_environment_variable():
-    """Test the 'get_environment_variable' method of the App class."""
+    """Test the 'get_environment_variable()' method of the App class."""
     app = App()
     # Retrieve the current environment setting
     current_env = app.get_environment_variable('ENVIRONMENT')
